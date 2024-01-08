@@ -32,11 +32,13 @@ class BaseModel:
             for key, value in kwargs.items():
                 if key != "__class__":
                     setattr(self, key, value)
-            if kwargs.get("created_at", None) and type(self.created_at) is str:
+            if kwargs.get("created_at", None) and isinstance(
+                    self.created_at, str):
                 self.created_at = datetime.strptime(kwargs["created_at"], time)
             else:
                 self.created_at = datetime.utcnow()
-            if kwargs.get("updated_at", None) and type(self.updated_at) is str:
+            if kwargs.get("updated_at", None) and isinstance(
+                    self.updated_at, str):
                 self.updated_at = datetime.strptime(kwargs["updated_at"], time)
             else:
                 self.updated_at = datetime.utcnow()
@@ -57,7 +59,7 @@ class BaseModel:
         self.updated_at = datetime.utcnow()
         models.storage.new(self)
         models.storage.save()
-    
+
     def to_dict(self, secure_pwd=True):
         """returns a dictionary containing all keys/values of the instance"""
         new_dict = self.__dict__.copy()
